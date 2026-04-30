@@ -1,3 +1,5 @@
+const dotenv = require("dotenv");
+dotenv.config();
 const cors = require("cors");
 const express = require("express");
 const path = require("path");
@@ -11,7 +13,7 @@ const userLoginRouter = require("./src/routes/dashboard.user.routes");
 const userFrontendRouter = require("./src/routes/frontend.route");
 
 const app = express();
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 
 db.connect()
   .then(() => console.log("PG Connected"))

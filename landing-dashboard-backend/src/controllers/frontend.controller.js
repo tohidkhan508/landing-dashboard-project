@@ -89,11 +89,9 @@ async function handleUserlogin(req, res) {
     }
 
     // token
-    const token = jwt.sign(
-      { id: dbUser.id },
-      process.env.JWT_SECRET || "secret",
-      { expiresIn: "1d" },
-    );
+    const token = jwt.sign({ id: dbUser.id }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
 
     res.json({
       success: true,
