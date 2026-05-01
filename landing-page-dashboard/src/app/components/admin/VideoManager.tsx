@@ -11,6 +11,9 @@ export default function VideoManager() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
+
   const [form, setForm] = useState({
     title: "",
     video: null as File | null,
@@ -21,7 +24,11 @@ export default function VideoManager() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("http://localhost:8000/api/videos");
+      const res = await fetch("http://localhost:8000/api/videos", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
@@ -82,11 +89,17 @@ export default function VideoManager() {
       if (editing) {
         await fetch(`http://localhost:8000/api/videos/${editing}`, {
           method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           body: formData,
         });
       } else {
         await fetch("http://localhost:8000/api/videos", {
           method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           body: formData,
         });
       }
@@ -120,6 +133,9 @@ export default function VideoManager() {
     try {
       await fetch(`http://localhost:8000/api/videos/${id}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       await fetchVideo(); // Refresh the list
     } catch (error) {
@@ -174,17 +190,19 @@ export default function VideoManager() {
           <h2 className="text-3xl font-bold text-white">Videos</h2>
           <p className="text-gray-400 mt-1">Manage your video library</p>
         </div>
-        <button
-          onClick={() => {
-            resetForm();
-            setIsFormOpen(true);
-          }}
-          disabled={loading}
-          className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <Plus size={20} />
-          Add Video
-        </button>
+        {role === "admin" && (
+          <button
+            onClick={() => {
+              resetForm();
+              setIsFormOpen(true);
+            }}
+            disabled={loading}
+            className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <Plus size={20} />
+            Add Video
+          </button>
+        )}
       </div>
 
       {/* Loading State */}
@@ -265,17 +283,19 @@ export default function VideoManager() {
                 </div>
               )}
 
-              <button
-                onClick={handleSubmit}
-                disabled={loading}
-                className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300 disabled:opacity-50"
-              >
-                {loading
-                  ? "Processing..."
-                  : editing
-                    ? "Update Video"
-                    : "Upload Video"}
-              </button>
+              {role === "admin" && (
+                <button
+                  onClick={handleSubmit}
+                  disabled={loading}
+                  className="w-full py-3 bg-linear-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300 disabled:opacity-50"
+                >
+                  {loading
+                    ? "Processing..."
+                    : editing
+                      ? "Update Video"
+                      : "Upload Video"}
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -294,7 +314,9 @@ export default function VideoManager() {
                 <div className="relative h-48 overflow-hidden bg-black/50">
                   <video
                     src={`http://localhost:8000${video.video}`}
-                    className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
+                    className="w-full h-full object-cover"
+                    autoPlay
+                    controls
                     muted
                     loop
                   />
@@ -302,18 +324,22 @@ export default function VideoManager() {
                     <Play size={48} className="text-white/80" />
                   </div>
                   <div className="absolute top-2 right-2 flex gap-2">
-                    <button
-                      onClick={() => handleEdit(video)}
-                      className="p-2 bg-blue-500/90 hover:bg-blue-600 rounded-lg text-white transition"
-                    >
-                      <Edit size={16} />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(video.id)}
-                      className="p-2 bg-red-500/90 hover:bg-red-600 rounded-lg text-white transition"
-                    >
-                      <Trash2 size={16} />
-                    </button>
+                    {role === "admin" && (
+                      <button
+                        onClick={() => handleEdit(video)}
+                        className="p-2 bg-blue-500/90 hover:bg-blue-600 rounded-lg text-white transition"
+                      >
+                        <Edit size={16} />
+                      </button>
+                    )}
+                    {role === "admin" && (
+                      <button
+                        onClick={() => handleDelete(video.id)}
+                        className="p-2 bg-red-500/90 hover:bg-red-600 rounded-lg text-white transition"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    )}
                   </div>
                 </div>
 

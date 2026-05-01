@@ -4,10 +4,10 @@ import Link from "next/link";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="min-h-screen bg-linear-to-br from-slate-900 via-purple-900 to-slate-900">
       {/* Hero Section */}
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-pink-600/20 blur-3xl"></div>
+        <div className="absolute inset-0 bg-linear-to-r from-purple-600/20 to-pink-600/20 blur-3xl"></div>
 
         <div className="container mx-auto px-4 py-20 relative z-10">
           <div className="text-center">
@@ -19,7 +19,7 @@ export default function HomePage() {
             {/* Heading */}
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
               Manage Your
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                 {" "}
                 Business
               </span>
@@ -34,7 +34,7 @@ export default function HomePage() {
             <div className="flex gap-4 justify-center">
               <Link
                 href="/login"
-                className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105"
+                className="px-8 py-3 bg-linear-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105"
               >
                 Get Started →
               </Link>

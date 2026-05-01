@@ -40,8 +40,8 @@ async function handleUserSignup(req, res) {
 
     // insert user
     const result = await db.query(
-      "INSERT INTO users (name, email, password) VALUES ($1,$2,$3) RETURNING id, name, email",
-      [name, normalizedEmail, hashedPassword],
+      "INSERT INTO users (name, email, password, role) VALUES ($1,$2,$3,$4) RETURNING id, name, email, role",
+      [name, normalizedEmail, hashedPassword, "user"],
     );
 
     res.status(201).json({
@@ -102,6 +102,7 @@ async function handleUserlogin(req, res) {
       {
         id: dbUser.id,
         email: dbUser.email,
+        role: dbUser.role,
       },
       process.env.JWT_SECRET,
       { expiresIn: "1d" },
@@ -115,6 +116,7 @@ async function handleUserlogin(req, res) {
         id: dbUser.id,
         name: dbUser.name,
         email: dbUser.email,
+        role: dbUser.role,
       },
     });
   } catch (error) {

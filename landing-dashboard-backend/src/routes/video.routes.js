@@ -9,6 +9,10 @@ const {
   updateVideos,
   deleteVideos,
 } = require("../controllers/video.controller");
+const {
+  checkForAuthenticstion,
+  checkAdminRole,
+} = require("../middlewares/dashboard.user");
 
 // Multer config
 const storage = multer.diskStorage({
@@ -24,8 +28,20 @@ const upload = multer({ storage });
 
 router
   .get("/", getVideos)
-  .post("/", upload.single("video"), addVideos)
-  .put("/:id", upload.single("video"), updateVideos)
-  .delete("/:id", deleteVideos);
+  .post(
+    "/",
+    upload.single("video"),
+    checkForAuthenticstion,
+    checkAdminRole,
+    addVideos,
+  )
+  .put(
+    "/:id",
+    upload.single("video"),
+    checkForAuthenticstion,
+    checkAdminRole,
+    updateVideos,
+  )
+  .delete("/:id", checkForAuthenticstion, checkAdminRole, deleteVideos);
 
 module.exports = router;

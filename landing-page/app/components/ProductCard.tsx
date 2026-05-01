@@ -12,7 +12,7 @@ import {
 } from "react-icons/fi";
 import { FaGem, FaCrown, FaStar } from "react-icons/fa";
 import { useState } from "react";
-import { Product } from "../../../types";
+import { Product } from "../../types";
 import { IoSparkles } from "react-icons/io5";
 
 interface ProductCardProps {

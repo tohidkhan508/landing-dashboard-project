@@ -13,7 +13,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-fade";
-import { Slide } from "../../../types";
+import { Slide } from "../../types";
 
 export default function HeroSlider({ slides }: HeroSliderProps) {
   const [slideStates, setSlideStates] = useState<any[]>([]);

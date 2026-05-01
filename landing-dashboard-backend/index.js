@@ -1,15 +1,15 @@
-const dotenv = require("dotenv");
-dotenv.config();
-const cors = require("cors");
 const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
 const path = require("path");
 const db = require("./src/db/db");
+
+dotenv.config();
 
 const productRoute = require("./src/routes/product.routes");
 const heroSliderRoute = require("./src/routes/hero.routes");
 const videoRouter = require("./src/routes/video.routes");
-const userSignupRouter = require("./src/routes/dashboard.user.routes");
-const userLoginRouter = require("./src/routes/dashboard.user.routes");
+const userAuthRouter = require("./src/routes/dashboard.user.routes");
 const userFrontendRouter = require("./src/routes/frontend.route");
 
 const app = express();
@@ -19,19 +19,19 @@ db.connect()
   .then(() => console.log("PG Connected"))
   .catch((err) => console.log("PG Error", err));
 
-// body parser
+// Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-// static folder (IMPORTANT)
+// static folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-// routes
+
+// Routes
 app.use("/api/heroSlider", heroSliderRoute);
 app.use("/api/products", productRoute);
 app.use("/api/videos", videoRouter);
-app.use("/api/users", userSignupRouter);
-app.use("/api/users", userLoginRouter);
+app.use("/api/auth", userAuthRouter);
 app.use("/api/users", userFrontendRouter);
 
 app.get("/", (req, res) => {

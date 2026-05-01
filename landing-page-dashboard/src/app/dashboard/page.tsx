@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 import Sidebar from "../components/admin/Sidebar";
 import Dashboard from "../components/admin/Dashboard";
 import SliderManager from "../components/admin/SliderManager";
@@ -9,6 +10,20 @@ import VideoManager from "../components/admin/VideoManager";
 
 export default function DashboardPage() {
   const [active, setActive] = useState("dashboard");
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      router.push("/login");
+    } else {
+      setLoading(false);
+    }
+  }, [router]);
+
+  if (loading) return null;
 
   return (
     <div className="flex min-h-screen bg-linear-to-br from-gray-900 via-gray-800 to-gray-900">

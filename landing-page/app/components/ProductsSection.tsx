@@ -1,6 +1,6 @@
 "use client";
 import ProductCard from "./ProductCard";
-import { Product } from "../../../types";
+import { Product } from "../../types";
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
   FiArrowRight,

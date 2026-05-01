@@ -9,6 +9,10 @@ const {
   updateProduct,
   deleteProduct,
 } = require("../controllers/product.controller");
+const {
+  checkForAuthenticstion,
+  checkAdminRole,
+} = require("../middlewares/dashboard.user");
 
 // multer config
 const storage = multer.diskStorage({
@@ -25,8 +29,20 @@ const upload = multer({ storage });
 // routes
 router
   .get("/", getProduct)
-  .post("/", upload.single("image"), addProduct)
-  .patch("/:id", upload.single("image"), updateProduct)
-  .delete("/:id", deleteProduct);
+  .post(
+    "/",
+    upload.single("image"),
+    checkForAuthenticstion,
+    checkAdminRole,
+    addProduct,
+  )
+  .patch(
+    "/:id",
+    upload.single("image"),
+    checkForAuthenticstion,
+    checkAdminRole,
+    updateProduct,
+  )
+  .delete("/:id", checkForAuthenticstion, checkAdminRole, deleteProduct);
 
 module.exports = router;

@@ -11,6 +11,9 @@ export default function SliderManager() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
+
   const [form, setForm] = useState({
     title: "",
     subtitle: "",
@@ -22,7 +25,11 @@ export default function SliderManager() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("http://localhost:8000/api/heroSlider");
+      const res = await fetch("http://localhost:8000/api/heroSlider", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
@@ -85,11 +92,17 @@ export default function SliderManager() {
       if (editingId) {
         await fetch(`http://localhost:8000/api/heroSlider/${editingId}`, {
           method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           body: formData,
         });
       } else {
         await fetch("http://localhost:8000/api/heroSlider", {
           method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           body: formData,
         });
       }
@@ -124,6 +137,9 @@ export default function SliderManager() {
     try {
       await fetch(`http://localhost:8000/api/heroSlider/${id}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       await fetchSlides(); // Refresh the list
     } catch (error) {
@@ -162,17 +178,19 @@ export default function SliderManager() {
           <h2 className="text-3xl font-bold text-white">Hero Slider</h2>
           <p className="text-gray-400 mt-1">Manage your homepage slides</p>
         </div>
-        <button
-          onClick={() => {
-            resetForm();
-            setIsFormOpen(true);
-          }}
-          disabled={loading}
-          className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <Plus size={20} />
-          Add Slide
-        </button>
+        {role === "admin" && (
+          <button
+            onClick={() => {
+              resetForm();
+              setIsFormOpen(true);
+            }}
+            disabled={loading}
+            className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <Plus size={20} />
+            Add Slide
+          </button>
+        )}
       </div>
 
       {/* Loading State */}
@@ -261,17 +279,19 @@ export default function SliderManager() {
                 </div>
               )}
 
-              <button
-                onClick={handleSubmit}
-                disabled={loading}
-                className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300 disabled:opacity-50"
-              >
-                {loading
-                  ? "Processing..."
-                  : editingId
-                    ? "Update Slide"
-                    : "Create Slide"}
-              </button>
+              {role === "admin" && (
+                <button
+                  onClick={handleSubmit}
+                  disabled={loading}
+                  className="w-full py-3 bg-linear-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300 disabled:opacity-50"
+                >
+                  {loading
+                    ? "Processing..."
+                    : editingId
+                      ? "Update Slide"
+                      : "Create Slide"}
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -295,18 +315,22 @@ export default function SliderManager() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="absolute top-2 right-2 flex gap-2">
-                    <button
-                      onClick={() => handleEdit(slide)}
-                      className="p-2 bg-blue-500/90 hover:bg-blue-600 rounded-lg text-white transition"
-                    >
-                      <Edit size={16} />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(slide.id)}
-                      className="p-2 bg-red-500/90 hover:bg-red-600 rounded-lg text-white transition"
-                    >
-                      <Trash2 size={16} />
-                    </button>
+                    {role === "admin" && (
+                      <button
+                        onClick={() => handleEdit(slide)}
+                        className="p-2 bg-blue-500/90 hover:bg-blue-600 rounded-lg text-white transition"
+                      >
+                        <Edit size={16} />
+                      </button>
+                    )}
+                    {role === "admin" && (
+                      <button
+                        onClick={() => handleDelete(slide.id)}
+                        className="p-2 bg-red-500/90 hover:bg-red-600 rounded-lg text-white transition"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    )}
                   </div>
                 </div>
 

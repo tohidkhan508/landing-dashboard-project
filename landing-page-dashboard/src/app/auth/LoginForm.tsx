@@ -29,7 +29,7 @@ export default function LoginForm() {
     try {
       setLoading(true);
 
-      const result = await fetch("http://localhost:8000/api/users/login", {
+      const result = await fetch("http://localhost:8000/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -39,8 +39,12 @@ export default function LoginForm() {
 
       const data = await result.json();
 
+      console.log(data);
+
       if (result.ok) {
         localStorage.setItem("token", data.token);
+        localStorage.setItem("role", data.user.role);
+
         router.push("/dashboard");
       } else {
         setError(data.message || "Login failed");

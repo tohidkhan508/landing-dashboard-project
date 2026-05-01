@@ -5,6 +5,7 @@ const {
   handleUserlogin,
 } = require("../controllers/dashboard.user");
 
+// Public routes
 router.post("/signup", handleUserSignup);
 router.post("/login", handleUserlogin);
 

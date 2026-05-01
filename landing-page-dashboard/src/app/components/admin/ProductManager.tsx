@@ -6,6 +6,7 @@ import { Plus, Edit, Trash2, Upload, X } from "lucide-react";
 export default function ProductManager() {
   const [products, setProducts] = useState<any[]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
 
   const [form, setForm] = useState({
@@ -14,11 +15,16 @@ export default function ProductManager() {
     image: null as File | null,
   });
 
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
 
   // GET PRODUCTS
   const fetchProducts = async () => {
-    const res = await fetch("http://localhost:8000/api/products");
+    const res = await fetch("http://localhost:8000/api/products", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     const data = await res.json();
     setProducts(data || []);
   };
@@ -48,6 +54,9 @@ export default function ProductManager() {
 
     const res = await fetch(url, {
       method: editingId ? "PATCH" : "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       body: formData,
     });
 
@@ -77,6 +86,9 @@ export default function ProductManager() {
 
     await fetch(`http://localhost:8000/api/products/${id}`, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     fetchProducts();
@@ -112,16 +124,18 @@ export default function ProductManager() {
           <h2 className="text-3xl font-bold text-white">Products</h2>
           <p className="text-gray-400 mt-1">Manage your product inventory</p>
         </div>
-        <button
-          onClick={() => {
-            resetForm();
-            setIsFormOpen(true);
-          }}
-          className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300"
-        >
-          <Plus size={20} />
-          Add Product
-        </button>
+        {role === "admin" && (
+          <button
+            onClick={() => {
+              resetForm();
+              setIsFormOpen(true);
+            }}
+            className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300"
+          >
+            <Plus size={20} />
+            Add Product
+          </button>
+        )}
       </div>
 
       {/* Form Modal */}
@@ -191,12 +205,14 @@ export default function ProductManager() {
                 </div>
               )}
 
-              <button
-                onClick={handleSubmit}
-                className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
-              >
-                {editingId ? "Update Product" : "Create Product"}
-              </button>
+              {role === "admin" && (
+                <button
+                  onClick={handleSubmit}
+                  className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
+                >
+                  {editingId ? "Update Product" : "Create Product"}
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -219,18 +235,22 @@ export default function ProductManager() {
                 />
               )}
               <div className="absolute top-2 right-2 flex gap-2">
-                <button
-                  onClick={() => handleEdit(product)}
-                  className="p-2 bg-blue-500/90 hover:bg-blue-600 rounded-lg text-white transition"
-                >
-                  <Edit size={16} />
-                </button>
-                <button
-                  onClick={() => handleDelete(product.id)}
-                  className="p-2 bg-red-500/90 hover:bg-red-600 rounded-lg text-white transition"
-                >
-                  <Trash2 size={16} />
-                </button>
+                {role === "admin" && (
+                  <button
+                    onClick={() => handleEdit(product)}
+                    className="p-2 bg-blue-500/90 hover:bg-blue-600 rounded-lg text-white transition"
+                  >
+                    <Edit size={16} />
+                  </button>
+                )}
+                {role === "admin" && (
+                  <button
+                    onClick={() => handleDelete(product.id)}
+                    className="p-2 bg-red-500/90 hover:bg-red-600 rounded-lg text-white transition"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                )}
               </div>
             </div>
 
