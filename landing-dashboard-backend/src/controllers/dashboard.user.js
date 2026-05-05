@@ -108,6 +108,12 @@ async function handleUserlogin(req, res) {
       { expiresIn: "1d" },
     );
 
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false, // set to true in production with HTTPS
+      sameSite: "lax",
+    });
+
     res.json({
       success: true,
       message: "Login successful",

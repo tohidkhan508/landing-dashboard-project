@@ -190,19 +190,17 @@ export default function VideoManager() {
           <h2 className="text-3xl font-bold text-white">Videos</h2>
           <p className="text-gray-400 mt-1">Manage your video library</p>
         </div>
-        {role === "admin" && (
-          <button
-            onClick={() => {
-              resetForm();
-              setIsFormOpen(true);
-            }}
-            disabled={loading}
-            className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <Plus size={20} />
-            Add Video
-          </button>
-        )}
+        <button
+          onClick={() => {
+            resetForm();
+            setIsFormOpen(true);
+          }}
+          disabled={loading}
+          className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <Plus size={20} />
+          Add Video
+        </button>
       </div>
 
       {/* Loading State */}
@@ -283,19 +281,17 @@ export default function VideoManager() {
                 </div>
               )}
 
-              {role === "admin" && (
-                <button
-                  onClick={handleSubmit}
-                  disabled={loading}
-                  className="w-full py-3 bg-linear-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300 disabled:opacity-50"
-                >
-                  {loading
-                    ? "Processing..."
-                    : editing
-                      ? "Update Video"
-                      : "Upload Video"}
-                </button>
-              )}
+              <button
+                onClick={handleSubmit}
+                disabled={loading}
+                className="w-full py-3 bg-linear-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300 disabled:opacity-50"
+              >
+                {loading
+                  ? "Processing..."
+                  : editing
+                    ? "Update Video"
+                    : "Upload Video"}
+              </button>
             </div>
           </div>
         </div>
@@ -324,22 +320,18 @@ export default function VideoManager() {
                     <Play size={48} className="text-white/80" />
                   </div>
                   <div className="absolute top-2 right-2 flex gap-2">
-                    {role === "admin" && (
-                      <button
-                        onClick={() => handleEdit(video)}
-                        className="p-2 bg-blue-500/90 hover:bg-blue-600 rounded-lg text-white transition"
-                      >
-                        <Edit size={16} />
-                      </button>
-                    )}
-                    {role === "admin" && (
-                      <button
-                        onClick={() => handleDelete(video.id)}
-                        className="p-2 bg-red-500/90 hover:bg-red-600 rounded-lg text-white transition"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    )}
+                    <button
+                      onClick={() => handleEdit(video)}
+                      className="p-2 bg-blue-500/90 hover:bg-blue-600 rounded-lg text-white transition"
+                    >
+                      <Edit size={16} />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(video.id)}
+                      className="p-2 bg-red-500/90 hover:bg-red-600 rounded-lg text-white transition"
+                    >
+                      <Trash2 size={16} />
+                    </button>
                   </div>
                 </div>
 

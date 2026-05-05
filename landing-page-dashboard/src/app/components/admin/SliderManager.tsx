@@ -178,19 +178,17 @@ export default function SliderManager() {
           <h2 className="text-3xl font-bold text-white">Hero Slider</h2>
           <p className="text-gray-400 mt-1">Manage your homepage slides</p>
         </div>
-        {role === "admin" && (
-          <button
-            onClick={() => {
-              resetForm();
-              setIsFormOpen(true);
-            }}
-            disabled={loading}
-            className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <Plus size={20} />
-            Add Slide
-          </button>
-        )}
+        <button
+          onClick={() => {
+            resetForm();
+            setIsFormOpen(true);
+          }}
+          disabled={loading}
+          className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <Plus size={20} />
+          Add Slide
+        </button>
       </div>
 
       {/* Loading State */}
@@ -279,19 +277,17 @@ export default function SliderManager() {
                 </div>
               )}
 
-              {role === "admin" && (
-                <button
-                  onClick={handleSubmit}
-                  disabled={loading}
-                  className="w-full py-3 bg-linear-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300 disabled:opacity-50"
-                >
-                  {loading
-                    ? "Processing..."
-                    : editingId
-                      ? "Update Slide"
-                      : "Create Slide"}
-                </button>
-              )}
+              <button
+                onClick={handleSubmit}
+                disabled={loading}
+                className="w-full py-3 bg-linear-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300 disabled:opacity-50"
+              >
+                {loading
+                  ? "Processing..."
+                  : editingId
+                    ? "Update Slide"
+                    : "Create Slide"}
+              </button>
             </div>
           </div>
         </div>
@@ -315,22 +311,19 @@ export default function SliderManager() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="absolute top-2 right-2 flex gap-2">
-                    {role === "admin" && (
-                      <button
-                        onClick={() => handleEdit(slide)}
-                        className="p-2 bg-blue-500/90 hover:bg-blue-600 rounded-lg text-white transition"
-                      >
-                        <Edit size={16} />
-                      </button>
-                    )}
-                    {role === "admin" && (
-                      <button
-                        onClick={() => handleDelete(slide.id)}
-                        className="p-2 bg-red-500/90 hover:bg-red-600 rounded-lg text-white transition"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    )}
+                    <button
+                      onClick={() => handleEdit(slide)}
+                      className="p-2 bg-blue-500/90 hover:bg-blue-600 rounded-lg text-white transition"
+                    >
+                      <Edit size={16} />
+                    </button>
+
+                    <button
+                      onClick={() => handleDelete(slide.id)}
+                      className="p-2 bg-red-500/90 hover:bg-red-600 rounded-lg text-white transition"
+                    >
+                      <Trash2 size={16} />
+                    </button>
                   </div>
                 </div>
 

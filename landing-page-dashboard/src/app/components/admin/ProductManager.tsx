@@ -124,18 +124,16 @@ export default function ProductManager() {
           <h2 className="text-3xl font-bold text-white">Products</h2>
           <p className="text-gray-400 mt-1">Manage your product inventory</p>
         </div>
-        {role === "admin" && (
-          <button
-            onClick={() => {
-              resetForm();
-              setIsFormOpen(true);
-            }}
-            className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300"
-          >
-            <Plus size={20} />
-            Add Product
-          </button>
-        )}
+        <button
+          onClick={() => {
+            resetForm();
+            setIsFormOpen(true);
+          }}
+          className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300"
+        >
+          <Plus size={20} />
+          Add Product
+        </button>
       </div>
 
       {/* Form Modal */}
@@ -205,14 +203,12 @@ export default function ProductManager() {
                 </div>
               )}
 
-              {role === "admin" && (
-                <button
-                  onClick={handleSubmit}
-                  className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
-                >
-                  {editingId ? "Update Product" : "Create Product"}
-                </button>
-              )}
+              <button
+                onClick={handleSubmit}
+                className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
+              >
+                {editingId ? "Update Product" : "Create Product"}
+              </button>
             </div>
           </div>
         </div>
@@ -235,22 +231,18 @@ export default function ProductManager() {
                 />
               )}
               <div className="absolute top-2 right-2 flex gap-2">
-                {role === "admin" && (
-                  <button
-                    onClick={() => handleEdit(product)}
-                    className="p-2 bg-blue-500/90 hover:bg-blue-600 rounded-lg text-white transition"
-                  >
-                    <Edit size={16} />
-                  </button>
-                )}
-                {role === "admin" && (
-                  <button
-                    onClick={() => handleDelete(product.id)}
-                    className="p-2 bg-red-500/90 hover:bg-red-600 rounded-lg text-white transition"
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                )}
+                <button
+                  onClick={() => handleEdit(product)}
+                  className="p-2 bg-blue-500/90 hover:bg-blue-600 rounded-lg text-white transition"
+                >
+                  <Edit size={16} />
+                </button>
+                <button
+                  onClick={() => handleDelete(product.id)}
+                  className="p-2 bg-red-500/90 hover:bg-red-600 rounded-lg text-white transition"
+                >
+                  <Trash2 size={16} />
+                </button>
               </div>
             </div>
 

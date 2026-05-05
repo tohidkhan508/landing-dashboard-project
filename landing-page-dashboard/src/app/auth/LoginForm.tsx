@@ -34,18 +34,20 @@ export default function LoginForm() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify(form),
       });
 
       const data = await result.json();
 
-      console.log(data);
+      const role = data.user?.role?.toLowerCase().trim();
 
       if (result.ok) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("role", data.user.role);
-
-        router.push("/dashboard");
+        if (role === "admin") {
+          router.push("/dashboard");
+        } else {
+          window.location.href = `${process.env.NEXT_PUBLIC_FRONTEND_URL}`;
+        }
       } else {
         setError(data.message || "Login failed");
       }

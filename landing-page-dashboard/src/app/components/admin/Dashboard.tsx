@@ -82,13 +82,13 @@ export default function Dashboard() {
                   </p>
                 </div>
                 <div
-                  className={`w-12 h-12 bg-gradient-to-r ${card.color} rounded-xl flex items-center justify-center`}
+                  className={`w-12 h-12 bg-linear-to-r ${card.color} rounded-xl flex items-center justify-center`}
                 >
                   <Icon size={24} className="text-white" />
                 </div>
               </div>
               <div
-                className={`absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r ${card.color}`}
+                className={`absolute bottom-0 left-0 w-full h-1 bg-linear-to-r ${card.color}`}
               ></div>
             </div>
           );

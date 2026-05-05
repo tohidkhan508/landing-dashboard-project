@@ -47,15 +47,6 @@ export default async function HomePage() {
 
   return (
     <main>
-      {/* <div className="flex justify-end gap-4 p-4">
-        <Link href="/login" className="px-4 py-2 border rounded">
-          Login
-        </Link>
-
-        <Link href="/signup" className="px-4 py-2 bg-black text-white rounded">
-          Signup
-        </Link>
-      </div> */}
       <Navbar />
       <HeroSlider slides={slides} />
       <ProductsSection products={products} />
